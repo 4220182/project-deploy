@@ -1,0 +1,33 @@
+image: kubernetes-deploy:0.0.1
+
+services:
+  - docker:dind
+  
+stages:
+  - deploy
+  - cleanup
+  
+deploy:
+  variables:
+    CI_DEBUG_TRACE: "false"
+  stage: deploy
+  script:
+    - ./deploy.sh
+  environment:
+    name: mytest
+    on_stop: destroy_game 
+  when: manual    
+  only:
+    - deploy
+
+destroy_game:
+  stage: cleanup
+  script:
+    - ./destroy.sh 
+  environment:
+    name: mytest
+    action: stop
+  when: manual
+  only:
+    - deploy
+

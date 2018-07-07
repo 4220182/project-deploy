@@ -1,0 +1,13 @@
+replicaCount: 1
+image:
+  repository: busybox
+  tag: latest
+  pullPolicy: IfNotPresent
+service:
+  type: NodePort
+  name: http-port
+  port: 10027
+  targetPort: 10027
+  nodePort: 10027
+envs:
+  name: "echo-message"
